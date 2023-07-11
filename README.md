@@ -1,5 +1,5 @@
 # Mystery House (Remodeled)
-A ground-up recreation, for the Pico-8, of the public domain classic that the first graphic adventure game.
+A ground-up recreation, for the Pico-8, of the first graphic adventure game.
 
 # The Goal
 The intention of this project is to recreate the original game, including all known bugs, for the Pico-8. It seems that the original source code has long since been lost, so I consider this a kind of continuation of the archaelogical detective work done by J. Aycock and K. Biittner in their research essay "Inspecting the Foundation of Mystery House". [The output posted to Aycock's GitHub](https://github.com/aycock/mh/blob/master/dumpgame.out) proved immensely helpful.
