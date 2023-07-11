@@ -1,8 +1,20 @@
 # Mystery House (Remodeled)
 A ground-up recreation, for the Pico-8, of the public domain classic that the first graphic adventure game.
 
+## A quick note about building this for Pico-8
+A few compression methods must be used to get the entire game to fit inside the Pico-8's 64K cartridge limitation (necessary for web-embedding the game, as on Lexaloffle or itch.io). The last step of removing comments and tab indentations may not be necessary depending on your distribution intentions.
+
+1. The spritesheet must be compressed to fit from address 0x0000 to 0x07FF. This is accomplished by taking the original 128px spritesheet and compressing it using [1 Bit Wonder](https://github.com/ChristopherDrum/1bitwonder). Any changes to the spritesheet will require this compression pass. The resultant compressed image can be trivially copy-pasted from 1 Bit Wonder directly into this Mystery House .p8 file. Or, as I did, add that to the Packer.p8 sub-project in this repository to collect all compressed items into one big block.
+1. Large blocks of text are stored in the ROM address range 0x0800 - 0x42FF. The `pack()` function in `packer.p8` handles this for the Mystery House project needs. The output of `pack()` is in two parts: the data itself (which can be copy-pasted trivially between .p8 files) and a list of lengths, for each string that was compressed. That's how we decompress the data back into tables in this project under `init_data()`
+1. The strings that make up the images were generated using [Versawriter-8](https://github.com/ChristopherDrum/versawriter8), another bespoke tool made for this project. An image, once drawn, can be copied to the pasteboard and pasted into a file that `packer.p8` can reach and embed into itself.
+1. I also use `packer.p8` to hold the cartridge "label" image, just to make the below step easy and worryfree.
+
+Once everything has been collated into `packer.p8` we have the pieces necessary to carry that embed over to this project.
+1. In VSCode we can see a large data block that begins with `[GFX]` and runs to the end of the file. That entire block can be copied from `packer.p8` and pasted directly into `mh.p8` to transfer the compressed and stored data.
+1. The output of `packer.p8` when run is a file called `packer.txt`. This contains table index numbers for each of the pictures stored in `pictures.lua` as well as a listing of the data lengths for each string stored in the ROM. This is used to extract the data at game startup in `init_data()` and that list is kept in the `init_lengths` string var near the top of the `mh.p8` file.
+
 # The Goal
-The intention of this project is to recreate the original game, including all known bugs, for the Pico-8. It seems that the original source code has long since been lost, so I consider this a kind of continuation of the archaelogical detective work done by J. Aycock and K. Biittner in their research essay "Inspecting the Foundation of Mystery House". The output posted to Aycock's GitHub at https://github.com/aycock/mh proved immensely helpful.
+The intention of this project is to recreate the original game, including all known bugs, for the Pico-8. It seems that the original source code has long since been lost, so I consider this a kind of continuation of the archaelogical detective work done by J. Aycock and K. Biittner in their research essay "Inspecting the Foundation of Mystery House". [The output posted to Aycock's GitHub](https://github.com/aycock/mh/blob/master/dumpgame.out) proved immensely helpful.
 
 ## Overcoming Limitations
 Basically I wanted to take a system with harsh limitations, in this case the Pico-8, and try to put myself in the mindset of the original creators. Why did they make the decisions they did? Why do certain classes of bugs exist? What would I have done differently and why? I also wanted the challenge of fitting the entire 140K original into 64K. There are various conversations within the Pico-8 community about making graphic adventure games, and it seemed to me that the best approach to solving the "could it be done" question that arises again and again was to just start at the beginning. "If an Apple 2 could do it, surely a Pico-8 could also do it," I mused. Eventually this musing turned into stubbornness and this project was born.
