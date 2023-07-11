@@ -368,6 +368,9 @@ rooms = {
 				else
 					transcribe("you have nothing strong enough")
 				end
+			end,
+			bricks = function(self)
+				self["break"].wall(self)
 			end
 		}
 	},
@@ -470,7 +473,8 @@ rooms = {
 		get = {
 			books = "it does not remove",
 			couch = "it is too heavy",
-			table = "it is too heavy"
+			table = "it is too heavy",
+			chair = "it is too heavy"
 		}
 	},
 
@@ -601,7 +605,6 @@ rooms = {
 	{
 		description = "you are in the fenced back yard. the fence follows the side of the house to the north. there is a dead body here",
 
-
 		open = {
 			door = function(self) --BUG?  open/closed doors don't tell you
 				self.picture = pic_backyard_house_open
@@ -655,7 +658,6 @@ rooms = {
 	{
 		description = "you are in a small fenced cemetary. there are six newly dug graves",
 
-
 		open = {
 			gate = function(self)
 				if (self.picture == pic_cemetary_open) then
@@ -705,9 +707,12 @@ rooms = {
 			shovel = function()
 				if (var_joe_dead == false) then
 					transcribe("joe won't let you")
-				else
-					command_handled = false
-					-- take_key("shovel") --BUG? summon shovel
+
+				else --BUG; teleport shovel
+					for r in all(rooms) do
+						del_key_from_room("shovel", r)
+					end
+					add_key_to_inventory("shovel")
 				end
 			end
 		},
@@ -738,7 +743,7 @@ rooms = {
 					var_joe_dead = true
 					transcribe("there is a dead body here")
 				else
-					transcribe("you're not carrying it")
+					transcribe("you are not carrying it")
 					del_key_from_room("joe_dots") --BUG; removes joe's eyes!
 				end
 			end,
@@ -757,7 +762,6 @@ rooms = {
 	--19 pantry
 	{
 		description = "you are in a small pantry",
-
 
 		go = {
 			d = 20,
@@ -785,7 +789,6 @@ rooms = {
 	--20 north/south passageway
 	{
 		description = "you are at the north end of a narrow north/south passageway",
-
 
 		go = {
 			s = 21,
@@ -885,7 +888,7 @@ rooms = {
 		look = {
 			telescop = function()
 				temp_room = 10
-				transcribe("you are looking through the attick window. you see a trapdoor in the attic ceiling")
+				transcribe("you are looking through the attic window. you see a trapdoor in the attic ceiling")
 				decorate(rooms[39], "trapdoor_closed")
 			end
 		}
@@ -1045,6 +1048,7 @@ rooms = {
 		go = {
 			n = 34,
 			e = 38,
+			door = "which direction?",
 			wall = function(self)
 				if (self.picture == pic_study_open) then
 					self.picture = pic_study_closed

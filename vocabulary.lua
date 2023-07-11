@@ -38,7 +38,7 @@ raw_verbs = {
 	"faucet,tap,water",
 	"on",
 	"off",
-	"unlight",
+	"unlight,off",
 	"save,store",
 	"restore",
 	"quit,bye,stop",
@@ -62,8 +62,8 @@ raw_nouns = {
 	"dagger",
 	"gun,pistol",
 	"note,memo,letter,paper",
-	"bla,dog",
-	"food,bread",
+	"bla,dog", --cut content?
+	"food,bread", --cut content?
 	"last",
 	"body,corpse,cadaver",
 	"trapdoor",
