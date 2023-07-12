@@ -804,7 +804,7 @@ function run_timers()
 	var_turn_count += 1
 end
 
---swap when you have exact object key values, like filled/empty pitcher
+--swap when you have parallel object key values, like filled/empty pitcher
 function swap(tabl, old, new, success, failure)
 	if (tabl[old]) then
 		tabl[old] = nil
