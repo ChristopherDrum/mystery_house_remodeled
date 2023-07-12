@@ -48,8 +48,8 @@ general = {
 		end,
 
 		room = function()
-			temp_room = 0
-		end, --NOP; side effect sets command_handled to true
+			temp_room = 0 --side effect sets command_handled to true
+		end,
 
 		tree = function()
 			if (rooms[current_room].picture == pic_forest) then
@@ -59,8 +59,7 @@ general = {
 			end
 		end,
 
-		--bug in the original; description ALWAYS reads one bullet
-		gun = "there is one bullet in the gun"
+		gun = "there is one bullet in the gun" --BUG; ALWAYS reports one bullet
 	},
 
 	read = {

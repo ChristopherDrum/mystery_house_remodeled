@@ -213,7 +213,7 @@ rooms = {
 
 		unlock = {
 			door = function(self)
-				if (key_in_inventory("small_key")) then
+				if (key_in_inventory("skeleton_key")) then
 					var_front_door_locked = false
 					transcribe("ok")
 				else
@@ -1051,7 +1051,6 @@ rooms = {
 			door = "which direction?",
 			wall = function(self)
 				if (self.picture == pic_study_open) then
-					self.picture = pic_study_closed
 					objects.picture[draw_pos] = {32,5}
 					objects.button[draw_pos] = {51,13}
 					self.picture = pic_study_closed
@@ -1139,7 +1138,7 @@ rooms = {
 
 	--38 bathroom
 	{
-		description = "you are in the bathroom. there is a dead body here",
+		description = "you are in the bathroom. there is a dead body here.",
 		go = {
 			door = 35, --BUG; east to get to this room, but west won't go back
 			toilet = "thanx. that feels ever so much better"
@@ -1257,7 +1256,7 @@ rooms = {
 		open = {
 			trunk = function(self)
 				if (var_trunk_unlocked == true) then
-					swap(self.decorations, "trunk_closed", "trunk_open", nil, "it is open")
+					swap(self.decorations, "trunk_closed", "trunk_open", "", "it is locked") --BUG; original has broken logic
 				else
 					transcribe("it is locked")
 				end
@@ -1284,7 +1283,11 @@ rooms = {
 		unlock = {
 			trunk = function()
 				if (var_trunk_unlocked == true) then
-					transcribe("it is unlocked")
+					if (key_in_room("trunk_closed")) then
+						transcribe("it is unlocked")
+					else
+						command_handled = false
+					end
 				else
 					if (key_in_inventory("small_key")) then
 						transcribe("ok")
