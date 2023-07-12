@@ -1324,14 +1324,15 @@ rooms = {
 			person = function(self)
 				self.look.daisy()
 			end,
-			body = "she is dead" --BUG; does not check for dead state
+			body = "she is dead" --BUG; daisy_dead not checked
 		},
 		kill = {
-			daisy = "with what?" --BUG; does not check for dead state
+			daisy = "with what?" --BUG; daisy_dead not checked
+
 		},
 		with = {
 			_default = function(msg)
-				--BUG; daisy_dead not checked!
+				--BUG; daisy_dead not checked
  				local msg = msg or "you are not carrying it"
 				if (not noun_in_inventory(current_noun)) transcribe(msg)
 				transcribe("daisy stabbed you. you are dead")
