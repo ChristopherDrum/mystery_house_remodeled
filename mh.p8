@@ -846,7 +846,7 @@ end
 function quit_game()
 	input = ""
 	prompt = ""
-	transcribe("thank you for playing hi-res adventure... good-bye")
+	transcribe("thank you for playing hi-res adventure ... good-bye")
 	cursor(0,0)
 	extcmd("shutdown")
 end

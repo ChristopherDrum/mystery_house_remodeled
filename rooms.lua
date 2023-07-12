@@ -167,6 +167,10 @@ rooms = {
 		end,
 
 		go = {
+			_default = function(self, nr)
+				if (self.picture == pic_entryhall_crowded) self.picture = pic_entryhall_closed
+				next_room = nr
+			end,
 			n = function(self)
 					if (self.picture == pic_entryhall_open) then
 						self.picture = pic_entryhall_closed
@@ -176,31 +180,25 @@ rooms = {
 					end
 				end,
 			s = function(self)
-					if (self.picture == pic_entryhall_crowded) self.picture = pic_entryhall_closed
-					next_room = 16
+					self.go._default(self,16)
 				end,
 			e = function(self)
-					if (self.picture == pic_entryhall_crowded) self.picture = pic_entryhall_closed
-					next_room = 14
+					self.go._default(self,14)
 				end,
 			w = function(self)
-					if (self.picture == pic_entryhall_crowded) self.picture = pic_entryhall_closed
-					next_room = 4
-				end,
+					self.go._default(self,4)
+			end,
 			u = function(self)
-					if (self.picture == pic_entryhall_crowded) self.picture = pic_entryhall_closed
-					next_room = 24
+					self.go._default(self,24)
 				end,
 			stairs = function(self)
-					if (self.picture == pic_entryhall_crowded) self.picture = pic_entryhall_closed
-					next_room = 24
+					self.go._default(self,24)
 				end,
 			door = "which direction?"
 		},
 
 		u = {
-			--BUG: 'up stairs' does not swap room pic
-			stairs = 24
+			stairs = 24 --BUG: 'up stairs' does not swap room pic
 		},
 
 		look = {
@@ -281,7 +279,7 @@ rooms = {
 		move = {
 			cabinet = function(self)
 				if (var_cabinet_moved == true) then
-					transcribe("it won't move any further")
+					transcribe("it won't move any farther")
 				else
 					var_cabinet_moved = true
 					objects.cabinet[draw_pos] = {33,8}
@@ -667,7 +665,7 @@ rooms = {
 				end
 			end
 		},
-		closed = {
+		close = {
 			gate = function(self)
 				if (self.picture == pic_cemetary_closed) then
 					transcribe("the door is closed")
@@ -770,7 +768,7 @@ rooms = {
 				if (key_in_room("kitchen_hole", rooms[4])) then
 					next_room = 4
 				else
-					transcribe("you go in the hole but cannot continue and have to return")
+					transcribe("you go in the hole but cannot continue and have to return.")
 				end
 			end
 		},
@@ -1235,6 +1233,15 @@ rooms = {
 		},
 		["break"] = {
 			window = "ok"
+		},
+		help = {
+			[""] = function()
+				if (key_in_room("sledgehammer")) then
+					transcribe("i think i see a sledgehammer here.")
+				else
+					command_handled = false
+				end
+			end
 		}
 	},
 
@@ -1324,7 +1331,8 @@ rooms = {
 		},
 		with = {
 			_default = function(msg)
-				local msg = msg or "you are not carrying it"
+				--BUG; daisy_dead not checked!
+ 				local msg = msg or "you are not carrying it"
 				if (not noun_in_inventory(current_noun)) transcribe(msg)
 				transcribe("daisy stabbed you. you are dead")
 				replay_game()
@@ -1348,7 +1356,11 @@ rooms = {
 				end
 			end,
 			dagger = function(self)
-				self.with._default()
+				if (var_daisy_dead == true) then
+					transcribe("daisy is already dead")
+				else
+					self.with._default()
+				end
 			end,
 			butterkn = function(self)
 				self.with._default()

@@ -5,16 +5,20 @@ general = {
 			if (rooms[current_room].picture == pic_forest) then
 				transcribe("if only i could tell if i'd been here before...")
 			else
-				transcribe("try going in some direction ex:north, south, east, west, up, down")
+				transcribe("try going in some direction ex:north, south, east, west, up, down") --extra spaces added for Pico-8 display friendliness
 			end
 		end
 	},
 
 	with = {
 		gun = function(held)
-			if (held and var_gun_was_shot == false) then
+			if (held) then
+				if (var_gun_was_shot == false) then
+					transcribe("your gun is now empty")
+				else
+					transcribe("your gun is empty")
+				end
 				var_gun_was_shot = true
-				transcribe("your gun is empty")
 			else
 				command_handled = false
 			end
