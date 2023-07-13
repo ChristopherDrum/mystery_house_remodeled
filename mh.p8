@@ -593,6 +593,7 @@ function _init()
 	cartdata(cartdata_name)
 	poke(0x5f2d,3)
 	poke(0x5f36,0x40) --disable text scrolling
+	init_from_data()
 	init_vocabulary(raw_verbs, verb_table)
 	init_vocabulary(raw_nouns, noun_table)
 	cls(0)
