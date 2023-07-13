@@ -1,5 +1,5 @@
 # Mystery House (Remodeled)
-A ground-up recreation, for the Pico-8, of the first graphic adventure game.
+An open-source, ground-up recreation, for the Pico-8, of the first graphic adventure game.
 
 [A fun itch.io page for casual players is here](https://christopherdrum.itch.io/mystery-house)
 
